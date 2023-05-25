@@ -1,7 +1,7 @@
+//Card--Section-Wrapper
 <template>
   <div id="app">
     <router-view></router-view>
-
   </div>
 </template>
 
@@ -32,15 +32,36 @@ export default {
   --link-color-active: #fff;
   --link-color-active-bg: #1f1c2e;
   --projects-section: #fff;
-  --message-box-hover: #fafcff;
-  --message-box-border: #e9ebf0;
+  --dialogue-section-box-hover: #fafcff;
+  --dialogue-section-box-border: #e9ebf0;
   --more-list-bg: #fff;
   --more-list-bg-hover: #f6fbff;
   --more-list-shadow: rgba(209, 209, 209, 0.4);
   --button-bg: #1f1c24;
   --search-area-bg: #fff;
-  --star: #1ff1c2e;
+  --star: #ff1c2e;
   --message-btn: #fff;
+}
+
+.dark:root {
+  --app-container: #1f1d2b;
+  --app-container: #111827;
+  --main-color: #fff;
+  --secondary-color: rgba(255, 255, 255, .8);
+  --projects-section: #1f2937;
+  --link-color: rgba(255, 255, 255, .8);
+  --link-color-hover: rgba(195, 207, 244, 0.1);
+  --link-color-active-bg: rgba(195, 207, 244, 0.2);
+  --button-bg: #1f2937;
+  --search-area-bg: #1f2937;
+  --dialogue-section-box-hover: #243244;
+  --dialogue-section-box-border: rgba(255, 255, 255, .1);
+  --star: #ffd92c;
+  --light-font: rgba(255, 255, 255, .8);
+  --more-list-bg: #2f3142;
+  --more-list-bg-hover: rgba(195, 207, 244, 0.1);
+  --more-list-shadow: rgba(195, 207, 244, 0.1);
+  --message-btn: rgba(195, 207, 244, 0.1);
 }
 
 html,
@@ -62,5 +83,13 @@ body {
 button,
 a {
   cursor: pointer;
+}
+
+ul,
+li,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 </style>

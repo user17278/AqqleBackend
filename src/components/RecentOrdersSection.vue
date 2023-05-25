@@ -1,30 +1,18 @@
 <template>
-    <div class="projects-section">
-        <div class="projects-section-header">
+    <div class="recent-orders-section">
+        <div class="recent-orders-section-header">
             <p>最近订单</p>
             <p class="time">十二月, 12</p>
         </div>
-        <div class="projects-section-line">
-            <div class="projects-status">
-                <div class="item-status">
-                    <span class="item-status-number">45</span>
-                    <span class="item-status-type">待处理</span>
-                </div>
-                <div class="item-status">
-                    <span class="item-status-number">24</span>
-                    <span class="item-status-type">待发货</span>
-                </div>
-                <div class="item-status">
-                    <span class="item-status-number">62</span>
-                    <span class="item-status-type">待取件</span>
-                </div>
-                <div class="item-status">
-                    <span class="item-status-number">62</span>
-                    <span class="item-status-type">已完成</span>
+        <div class="recent-orders-section-line">
+            <div class="recent-orders-status">
+                <div class="item-status" v-for="(item, index) in orderStatus" :key=index @click="statusHandler(index)">
+                    <span class="item-status-number">{{ item.number }}</span>
+                    <span class="item-status-type" :class="{ active1: isActive == index }">{{ item.type }}</span>
                 </div>
             </div>
-            <div class="view-actions">
-                <button class="view-btn list-view" title="List View">
+            <div class="view-mode">
+                <button class="view-mode-btn list-mode" title="列表视图">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-list">
@@ -36,7 +24,7 @@
                         <line x1="3" y1="18" x2="3.01" y2="18" />
                     </svg>
                 </button>
-                <button class="view-btn grid-view active" title="Grid View">
+                <button class="view-mode-btn grid-mode active" title="网格视图">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-grid">
@@ -48,25 +36,37 @@
                 </button>
             </div>
         </div>
-        <div class="projects-section-boxes jsGridView">
-            <ProjectBoxWrapper></ProjectBoxWrapper>
-            <ProjectBoxWrapper></ProjectBoxWrapper>
-            <ProjectBoxWrapper></ProjectBoxWrapper>
-            <ProjectBoxWrapper></ProjectBoxWrapper>
-            <ProjectBoxWrapper></ProjectBoxWrapper>
-        </div>
+        <RecentOrdersSectionBoxes></RecentOrdersSectionBoxes>
     </div>
 </template>
 
 <script>
-import ProjectBoxWrapper from './ProjectBoxWrapper.vue';
+import RecentOrdersSectionBoxes from './RecentOrdersSectionBoxes.vue';
 export default {
-    components: { ProjectBoxWrapper }
+    components: { RecentOrdersSectionBoxes },
+    data() {
+        return {
+            isActive: 0,
+            orderStatus: [{ number: 1, type: '待发货' }, { number: 2, type: '待取货' }, { number: 3, type: '已完成' }]
+        }
+    },
+    methods: {
+        statusHandler(index) {
+            console.log(index);
+            this.isActive = index
+        }
+    }
 }
 </script>
  
 <style lang="scss" scoped>
-.projects-section {
+.active1 {
+    border-radius: 210px;
+    background-color: #115DFC;
+    color: var(--projects-section) !important;
+}
+
+.recent-orders-section {
     flex: 2;
     background-color: var(--projects-section);
     border-radius: 32px;
@@ -103,35 +103,39 @@ export default {
         align-items: center;
         padding-bottom: 32px;
 
-        .projects-status {
+        .recent-orders-status {
             display: flex;
 
             .item-status {
                 display: flex;
                 flex-direction: column;
                 margin-right: 16px;
+                cursor: pointer;
 
                 &-number {
                     font-size: 24px;
                     line-height: 32px;
                     font-weight: 700;
+                    padding-left: 8px;
                     color: var(--main-color);
                 }
 
                 &-type {
                     position: relative;
-                    padding-right: 24px;
-                    color: var(--secondary-color);
+                    padding-left: 8px;
+                    padding-right: 8px;
+                    color: var(--main-color);
+                    font-size: 16px;
                 }
             }
         }
 
-        .view-actions {
+        .view-mode {
             display: flex;
             align-items: center;
         }
 
-        .view-btn {
+        .view-mode-btn {
             width: 36px;
             height: 36px;
             display: flex;
@@ -230,7 +234,7 @@ export default {
 }
 
 @media screen and (max-width: 980px) {
-    .projects-section-boxes .jsGridView {
+    .recent-orders-section-boxes .jsGridView {
         width: 50% !important;
     }
 
@@ -250,11 +254,11 @@ export default {
 }
 
 @media screen and (max-width: 520px) {
-    .projects-section {
+    .recent-orders-section {
         overflow: auto !important;
     }
 
-    .projects-section-boxes {
+    .recent-orders-boxes {
         overflow-y: visible !important;
     }
 
@@ -264,16 +268,16 @@ export default {
         font-size: 10px !important;
     }
 
-    .projects-section-boxes.jsGridView .project-box-wrapper {
+    .recent-orders-section-boxes.jsGridView .project-box-wrapper {
         width: 100% !important;
     }
 
-    .projects-section {
+    .recent-orders-section {
         padding: 24px 16px 0 16px !important;
     }
 
-    .projects-section-header p,
-    .projects-section-header .time {
+    .recent-orders-section-header p,
+    .recent-orders-section-header .time {
         font-size: 18px !important;
     }
 
@@ -286,15 +290,15 @@ export default {
     }
 
 
-    .projects-section-boxes.jsListView {
+    .recent-orders-section-boxes.jsListView {
         font-size: 10px !important;
     }
 
-    .projects-section-boxes.jsListView {
+    .recent-orders-section-boxes.jsListView {
         margin-right: 10px !important;
     }
 
-    .projects-section-boxes.jsListView {
+    .recent-orders-section-boxes.jsListView {
         right: 2px !important;
         top: 10px !important;
     }
